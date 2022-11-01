@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 10
+#define MAX 60
 struct MyStack{
 	int top;           //堆疊頂端
 	char a[MAX];       //堆疊主體
@@ -13,27 +13,40 @@ struct MyStack{
 	{
 		top = -1;
 	}
+	
 }; 
 
-bool CheckQuote(char*);
 
+MyStack deles(MyStack);
 //==========================================
 int main(){
 	MyStack S1;
-	
-	FILE *fptr=fopen("20221027.txt", "r");
+	MyStack S2;
+	int i=0;
+	FILE *fptr=fopen("input.txt", "r");
 	char s[80];
-	while(!feof(fptr))
-	{
-		fscanf(fptr, "%s",s);
-		printf("%s: ", s);
-		
-		if(CheckQuote(s))
-			printf("Correct!\n");
-		else
-			printf("Error!\n");
-		s[0]='\0';
+	
+	
+	fscanf(fptr, "%[^\n]%*c",s);
+	printf("%s \n", s);
+	while(s[i]!='\0'){
+		S1.Push(s[i]);
+			i++;
 	}
+	
+	fscanf(fptr, "%[^\n]%*c",s);
+	printf("%s \n", s);
+	while(s[i]!='\0'){
+		S2.Push(s[i]);
+			i++;
+	}
+	
+	
+		
+		
+
+		
+	
 	
 	return 0;	
 }
@@ -96,47 +109,23 @@ char MyStack::Pop()
    d.如果輸入字串已經結束，並且堆疊也空了，正確。
 */ 
 //=========================================
-bool CheckQuote(char *s)
-{
-	MyStack S;
-	int i=0;
-	while(s[i]!='\0')
-	{
-		if(s[i]=='('||s[i]=='['||s[i]=='{')
-		{
-			S.Push(s[i]);
-		}
-		else
-		{
-			if(S.IsEmpty())
-			{
-				return false;
+MyStack deles(MyStack s){
+	MyStack result;
+	char tem1,tem2;
+	while(!s.IsEmpty()){
+		tem1=s.Pop();
+		if(tem1=='s'){
+			while(tem2!='e'){
+				tem2=s.Pop();
 			}
-			else
-			{		
-				if(s[i]==')')
-				{
-					if(S.Pop()!='(')
-						return false; 
-				}
-				else if(s[i]==']')
-				{
-					if(S.Pop()!='[')
-						return false; 
-				}
-				else
-				{
-					if(S.Pop()!='{')
-						return false; 
-				}
-			}
+			result.Push(tem2);
 		}
-		i++;
+		else{
+			result.Push(tem1);
+		}
 	}
-	if(!S.IsEmpty())
-		return false;
-	else
-		return true;
+	return result;
+	
 }
     
 
